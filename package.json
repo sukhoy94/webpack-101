@@ -1,0 +1,16 @@
+{
+  "name": "webpack101",
+  "version": "1.0.0",
+  "description": "Webpack to narzędzie, które pomaga programistom w zarządzaniu kodem ich aplikacji webowych. Wyobraź sobie, że masz wiele plików JavaScript, CSS i innych, które należy połączyć w jeden, zoptymalizowany plik, aby strona internetowa działała szybko i sprawnie. Webpack robi właśnie to - zbiera wszystkie te pliki i tworzy z nich jeden, zoptymalizowany zestaw, gotowy do użycia przez przeglądarkę internetową. Dzięki Webpackowi możesz także łatwo zarządzać zależnościami między plikami, co ułatwia rozwijanie i utrzymanie dużych projektów webowych. Innymi słowy, Webpack pomaga zorganizować i zoptymalizować kod, co przekłada się na lepszą wydajność i łatwiejsze zarządzanie projektem.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
+  }
+}
