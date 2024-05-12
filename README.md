@@ -43,6 +43,11 @@ mkdir src && touch ./src/index.js
 6. Następnie odpalamy znowy komendę webpack, w wyniku powstanie folder ./dist z plikiem main.js.
 Ten plik zawiera skompilowaną wersje naszego kodu z ./src/index.js. Czyli suma sumarum skorzystaliśmy z webpack nawet bez żadnej konfiguracji
 
+## Jak skompilować pliki za pomocą webpack? 
+Wpisz w konsoli polecenie:
+```
+webpack
+```
 
 ## Plik konfiguracyjny webpack.config.js
 
@@ -61,3 +66,118 @@ module.exports = {
 };
 ```
 Określamy plik entry oraz ścieżke gdzie będziemy nasz kod "pakować".
+
+### Style css
+Utwórzmy sobie 2 pliki: index.html oraz style.css
+
+```
+touch index.html && touch src/style.css
+```
+
+W index.html dodajmy skrypt z folderu dist
+```
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<script src="./dist/main.js"></script>
+</body>
+</html>
+```
+
+w src/style.css dajmy jakiś przykładowy kod typu
+```
+body {
+   background: blue;
+}
+```
+i zainkludujmy to jsa src/index.js
+```
+require('./style.css');
+```
+
+Teraz jakbyśmy sobie odpalili komendę webpack to dostaniemy
+błąd typu:
+```
+ERROR in ./src/style.css 1:5
+Module parse failed: Unexpected token (1:5)
+You may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. 
+```
+Wszystko wskazuje na to że webpack nie rozumie css. I żeby
+css zrozumiał potrzebuje tzw loadera.
+Loader w Webpacku to moduł, który pozwala na przetwarzanie plików o różnych formatach w trakcie procesu budowania. Kiedy Webpack napotyka importowane lub wymagane pliki innych typów niż JavaScript, takie jak pliki CSS, obrazy, czcionki czy inne, nie ma naturalnej zdolności do ich zrozumienia i obsługi. W takich przypadkach loadery są używane do przekształcenia tych plików w moduły JavaScript, które mogą być zintegrowane bezpośrednio do twojego projektu.
+
+A zatem instalujemy odpowiedni loader:
+```
+npm install css-loader --save-dev
+```
+Dodajemy obsługe tego w naszej konfiguracji w webpack.config.js
+```
+const path = require("path");
+module.exports = {
+    entry: './src/index.js',
+    output: {
+        path: path.resolve(__dirname, './dist'),
+        filename: 'main.js'
+    },
+    module: {
+        rules: [
+            {
+                test: /\.css$/i,
+                use: ["css-loader"],
+            }
+        ]
+    }    
+};
+```
+Po tym jak skompilujemy projekt błędów już nie będzie,
+i style ładnie wyłądują w dist/main.js.
+Natomiast jak odpalimy index.html zauważymy że 
+nic się nie zmieniło i tło nadal jest białe.
+Dzieje się to dlatego że chociał webpack poradził sobie
+z parsowanie stylów, to musi jeszcze poradzić sobie z wstrzykiwaniem tych styli bezpośrednio
+do strony www. I do tego mamy kolejny loader który się nazywa style-loader.
+A zatem:
+
+```
+npm install style-loader --save-dev
+```
+
+config:
+```
+const path = require("path");
+module.exports = {
+    entry: './src/index.js',
+    output: {
+        path: path.resolve(__dirname, './dist'),
+        filename: 'main.js'
+    },
+    module: {
+        rules: [
+            {
+                test: /\.css$/i,
+                use: ["style-loader", "css-loader"],
+            }
+        ]
+    }
+};
+```
+i ponownie kompilujemy projekt wpisując polecenie 
+```
+webpack
+```
+
+Vuala! Mamy niebieskie tło.
+Zauważ że w konfigu loaderki są wpisane w kolejności
+```
+["style-loader", "css-loader"]
+```
+
+To jest ważne, ponieważ webpack ich uruchamia od prawej do lewej, czyli najpierw musi ogarnąć css przez css-loader, a potem to już załadować do strony.
