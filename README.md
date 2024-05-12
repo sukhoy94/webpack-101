@@ -1,3 +1,5 @@
+[![Jak działa Webpack](https://img.youtube.com/vi/CmisCRhwfu4/0.jpg)](https://youtu.be/CmisCRhwfu4)
+
 # Spis Treści
 
 1. [Co to jest WebPack](#co-to-jest-webpack)
