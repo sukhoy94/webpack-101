@@ -49,6 +49,21 @@ Wpisz w konsoli polecenie:
 webpack
 ```
 
+## webpack --watch
+
+Żeby za każdym razem nie wpisywać webpack, 
+można go uruchomić jako 
+```
+webpack --watch
+```
+
+Wtedy wszystkie zmiany entry pliku będą monitorowane na bieżąco i będą kompilowane.
+Uważaj że jeżeli zmieniasz konfigi w webpack.config.js, to żeby webpack ich 
+załapał trzeba go ponownie uruchomić (wpisujać webpack bądź webpack --watch
+
+
+)
+
 ## Plik konfiguracyjny webpack.config.js
 
 Webpack korzysta z pliku 
@@ -181,3 +196,134 @@ Zauważ że w konfigu loaderki są wpisane w kolejności
 ```
 
 To jest ważne, ponieważ webpack ich uruchamia od prawej do lewej, czyli najpierw musi ogarnąć css przez css-loader, a potem to już załadować do strony.
+
+## Kompilacja sass/scss
+
+W tej sekcji sobie opiszmy jak użyć webpack
+do kompilacji sass, czyli czegoś takiego
+
+```
+$color: blue
+body
+   background-color: $color
+```
+lub scss
+```
+$color: blue
+body {
+   p {
+      color: $color;
+   }
+}
+```
+
+Tu jest wszystko mocno podobne do kompilacji css.
+Stwórzmy sobie plik style.sass
+```
+touch src/style.sass
+```
+
+Dajmy tam:
+```
+$color: blue
+
+body
+  background-color: $color
+```
+oraz include tego do index.js
+
+```
+require('./style.sass');
+```
+
+Teraz potrzebujemy loadera który umożliwi że webpack zrozumie syntax sass oraz sam sass.
+
+```
+npm install sass-loader sass --save-dev
+```
+
+Dodajemy rule dla sass/scss
+
+```
+const path = require("path");
+module.exports = {
+    entry: './src/index.js',
+    output: {
+        path: path.resolve(__dirname, './dist'),
+        filename: 'main.js'
+    },
+    module: {
+        rules: [
+            // rule dla kompilacji plików css
+            {
+                test: /\.css$/i,
+                use: ["style-loader", "css-loader"],
+            },
+
+            // rule dla kompilacji plików sass/scss
+            {
+                test: /\.s[ac]ss$/i,
+                use: ["style-loader", "css-loader", "sass-loader"],
+            },
+        ]
+    }
+};
+```
+
+Teraz wpiszmy webpack do konsoli - po odświeżeniu strony będziemy mieli niebiskie tło.
+Czyli działa!
+
+Tujaj zauważ że mieliśmy najpierw użyć sass-loader, potem css-loader a potem już style-loader.
+To dlatego że webpack z kod sass przekształca w kod css, no i żeby ten css zrozumiał potrzebuje css-loader.
+
+
+## Wydzielenie skompilowanego css do oddzielnego pliku
+Prawie zawsze cssy trzymamy w oddzielny pliku, więc omówmy jak to 
+zrobić za pomocą webpack.
+Zróbmy sobie strukture jak z sekcji dla kompilacji sass.
+
+Żeby wydzielić skompilowany css do pliku, użyjemy
+MiniCssExtractPlugin - to plugin dla Webpacka, który służy do ekstrahowania kodu CSS z bundla JavaScript i zapisywania 
+go do osobnych plików CSS. 
+
+Jest to przydatne, gdy chcesz
+oddzielić kod CSS od kodu JavaScript, co może poprawić wydajność i ułatwić zarządzanie styli w Twojej aplikacji..
+
+
+```
+npm install --save-dev mini-css-extract-plugin
+```
+
+Teraz w konfigu musimy zdefiniować plugin w sekcji plugins
+oraz zamiast style-loader użyć właśnie tego pluginu
+
+```
+const path = require("path");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+module.exports = {
+    entry: './src/index.js',
+    output: {
+        path: path.resolve(__dirname, './dist'),
+        filename: 'main.js'
+    },
+    plugins: [new MiniCssExtractPlugin()],
+    module: {
+        rules: [
+            // rule dla kompilacji plików css
+            {
+                test: /\.css$/i,
+                use: ["style-loader", "css-loader"],
+            },
+
+            // rule dla kompilacji plików sass/scss
+            {
+                test: /\.s[ac]ss$/i,
+                use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+            },
+        ]
+    }
+};
+```
+
+Po tym kompilujemy projekt i w dist mamy main.css, który zawiera nasze style które były dodane do index.js.
