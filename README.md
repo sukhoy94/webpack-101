@@ -327,3 +327,32 @@ module.exports = {
 ```
 
 Po tym kompilujemy projekt i w dist mamy main.css, który zawiera nasze style które były dodane do index.js.
+
+### production oraz development mode
+
+## Tryby deweloperski i produkcyjny w Webpacku
+
+### Tryb produkcyjny (production mode):
+
+W trybie produkcyjnym Webpack optymalizuje wydajność i rozmiar wynikowego bundla JavaScript. Może to obejmować minifikację kodu JavaScript, eliminację zbędnych lub powtarzających się fragmentów kodu, a także ekstrakcję kodu CSS do osobnych plików. Tryb produkcyjny jest przeznaczony do wykorzystania na żywym środowisku produkcyjnym, gdzie liczy się optymalna wydajność i minimalizacja rozmiaru plików.
+
+### Tryb deweloperski (development mode):
+
+W trybie deweloperskim Webpack skupia się na szybkości działania i ułatwia debugowanie aplikacji. Nie stosuje się do optymalizacji tak drastycznych kroków, jak w trybie produkcyjnym, co oznacza, że wynikowy bundel może być większy i mniej zoptymalizowany. Może zawierać informacje do debugowania (takie jak sourcemaps) i zachować bardziej czytelny kod.
+
+Aby skonfigurować Webpack w trybie deweloperskim lub produkcyjnym, możesz użyć odpowiedniej flagi podczas uruchamiania Webpacka z poziomu wiersza poleceń lub ustawić odpowiednią wartość `mode` w pliku konfiguracyjnym Webpacka.
+
+Przykład użycia flagi dla trybu produkcji:
+```bash
+webpack --mode=production
+```
+
+Przykład ustawienia trybu w pliku konfiguracyjnym Webpacka:
+
+```
+module.exports = {
+  mode: 'production', // lub 'development'
+  // reszta konfiguracji...
+};
+
+```
