@@ -44,3 +44,20 @@ mkdir src && touch ./src/index.js
 Ten plik zawiera skompilowaną wersje naszego kodu z ./src/index.js. Czyli suma sumarum skorzystaliśmy z webpack nawet bez żadnej konfiguracji
 
 
+## Plik konfiguracyjny webpack.config.js
+
+Webpack korzysta z pliku 
+konfiguracyjnego o nazwie `webpack.config.js`, w którym definiowane są różne ustawienia i opcje dla procesu budowania.
+Oto jak wygląda podstawowa konfiguracja które określa
+tzw. punkty entry/output:
+```
+const path = require("path");
+module.exports = {
+    entry: './src/index.js',
+    output: {
+        path: path.resolve(__dirname, './dist'),
+        filename: 'main.js'
+    },
+};
+```
+Określamy plik entry oraz ścieżke gdzie będziemy nasz kod "pakować".
