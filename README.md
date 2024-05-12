@@ -1,4 +1,4 @@
-[![Jak działa Webpac - wideo na YouTube]](https://youtu.be/CmisCRhwfu4)
+[Jak działa Webpack - wideo na YouTube](https://youtu.be/CmisCRhwfu4)
 
 # Spis Treści
 
