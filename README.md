@@ -1,3 +1,13 @@
+# Spis Treści
+
+1. [Co to jest WebPack](#co-to-jest-webpack)
+2. [Jak Zacząć](#jak-zacząć)
+3. [Plik konfiguracyjny webpack.config.js](#plik-konfiguracyjny-webpackconfigjs)
+4. [Style CSS](#style-css)
+5. [Kompilacja Sass/Scss](#kompilacja-sassscss)
+6. [Wydzielenie skompilowanego CSS do oddzielnego pliku](#wydzielenie-skompilowanego-css-do-oddzielnego-pliku)
+7. [Production oraz Development Mode](#production-oraz-development-mode)
+
 # Co to jest WebPack
 Webpack to narzędzie, które pomaga programistom w zarządzaniu kodem ich aplikacji webowych. Wyobraź sobie, że masz wiele plików JavaScript, CSS i innych, które należy połączyć w jeden, zoptymalizowany plik, aby strona internetowa działała szybko i sprawnie. Webpack robi właśnie to - zbiera wszystkie te pliki i tworzy z nich jeden, zoptymalizowany zestaw, gotowy do użycia przez przeglądarkę internetową. Dzięki Webpackowi możesz także łatwo zarządzać zależnościami między plikami, co ułatwia rozwijanie i utrzymanie dużych projektów webowych. Innymi słowy, Webpack pomaga zorganizować i zoptymalizować kod, co przekłada się na lepszą wydajność i łatwiejsze zarządzanie projektem.
 
