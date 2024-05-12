@@ -1,4 +1,4 @@
-[![Jak działa Webpack](https://img.youtube.com/vi/CmisCRhwfu4/0.jpg)](https://youtu.be/CmisCRhwfu4)
+[![Jak działa Webpac - wideo na YouTube]](https://youtu.be/CmisCRhwfu4)
 
 # Spis Treści
 
